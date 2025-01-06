@@ -1,14 +1,11 @@
 package jm.task.core.jdbc.util;
 
-import org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionCreator;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Util {
     private Connection connection = null;
-    private Util util = null;
 
     private final String url = "jdbc:mysql://localhost:3306/mydb";
     private final String name = "root";
@@ -16,7 +13,7 @@ public class Util {
 
     public Util() {
         try {
-            connection = DriverManager.getConnection(url,name,password);
+            connection = DriverManager.getConnection(url, name, password);
         } catch (SQLException e) {
             System.out.println("Подключение не установленно");
         }
