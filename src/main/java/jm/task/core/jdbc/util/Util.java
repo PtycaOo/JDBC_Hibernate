@@ -5,10 +5,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import javax.security.auth.login.Configuration;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.Properties;
 
 public class Util {
@@ -20,17 +17,7 @@ public class Util {
 
     private static SessionFactory sessionFactory = null;
 
-
-    /* Соединение для JDBC*/
-//    public Util() {
-//        try {
-//            connection = DriverManager.getConnection(url, name, password);
-//        } catch (SQLException e) {
-//            System.out.println("Подключение не установленно");
-//        }
-//    }
-
-    /*Блок для инициализации интерфейса SessionFabric с настройками*/
+    
     static {
         try {
             Properties properties = new Properties();
@@ -46,7 +33,6 @@ public class Util {
         }
     }
 
-    /*Можно обойтись без этого метода, но с ним короче код в UserDaoHibernate*/
     public static Session getSession() throws HibernateException{
         return sessionFactory.openSession();
     }

@@ -22,7 +22,6 @@ public class UserDaoHibernateImpl implements UserDao {
                     "(id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
                     "name VARCHAR(50) NOT NULL, lastName VARCHAR(50) NOT NULL, " +
                     "age TINYINT NOT NULL)";
-
             Query query = session.createSQLQuery(sql).addEntity(User.class);
             query.executeUpdate();
             session.getTransaction().commit();
@@ -80,38 +79,25 @@ public class UserDaoHibernateImpl implements UserDao {
 
     }
 
-//    @Override
-//    public List<User> getAllUsers() {
-//        List<User> userList = new ArrayList<>();
-//
-//        try(Session session = Util.getSession()){
-//            Query query = session.createQuery("FROM User");
-//            userList = query.list();
-//        } catch (HibernateException e){
-//            e.printStackTrace();
-//        }
-//        return userList;
-//    }
-
-    /* Так получается короче, но в таком методе у меня не получается отловить ошибки, так как надо 2 раза
-    вызывать return.
-     */
     @Override
     public List<User> getAllUsers() {
         try(Session session = Util.getSession()) {
             return session.createQuery("FROM User", User.class).list();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
     @Override
     public void cleanUsersTable() {
         Transaction transaction = null;
-        try(Session session = Util.getSession()){
+        try(Session session = Util.getSession()) {
             transaction = session.beginTransaction();
             Query query = session.createQuery("delete User");
             query.executeUpdate();
             transaction.commit();
-        } catch (HibernateException e){
+        } catch (HibernateException e) {
             System.err.println("Ошибка при очистке таблицы " + e.getMessage());
             if(transaction != null){
                 transaction.rollback();
