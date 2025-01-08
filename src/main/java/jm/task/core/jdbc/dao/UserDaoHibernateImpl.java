@@ -72,12 +72,11 @@ public class UserDaoHibernateImpl implements UserDao {
             session.delete(user);
             transaction.commit();
         } catch (HibernateException e) {
-            if(transaction != null){
+            if(transaction != null) {
                 transaction.rollback();
                 e.printStackTrace();
             }
         }
-
     }
 
 //    @Override
@@ -98,8 +97,11 @@ public class UserDaoHibernateImpl implements UserDao {
      */
     @Override
     public List<User> getAllUsers() {
-        try(Session session = Util.getSession()) {
+        try (Session session = Util.getSession()) {
             return session.createQuery("FROM User", User.class).list();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
@@ -111,9 +113,9 @@ public class UserDaoHibernateImpl implements UserDao {
             Query query = session.createQuery("delete User");
             query.executeUpdate();
             transaction.commit();
-        } catch (HibernateException e){
+        } catch (HibernateException e) {
             System.err.println("Ошибка при очистке таблицы " + e.getMessage());
-            if(transaction != null){
+            if(transaction != null) {
                 transaction.rollback();
             }
         }
